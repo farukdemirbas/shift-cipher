@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { finalize, debounce, timer } from 'rxjs';
 import { CipherService } from 'src/app/services/cipher.service';
 
 @Component({
@@ -9,7 +10,8 @@ import { CipherService } from 'src/app/services/cipher.service';
 })
 export class DecipherComponent implements OnInit {
     public decipherForm: FormGroup = new FormGroup({});
-    
+    public isCalculating = false;
+
     constructor(
         private cipherService: CipherService,
         private fb: FormBuilder) {
@@ -22,15 +24,12 @@ export class DecipherComponent implements OnInit {
             kValue: [null]
         });
 
-        // Every change on the source textbox will trigger a cipher operation
-        // and write the result into the target textbox.
-        this.decipherForm.get('sourceText')?.valueChanges.subscribe(val => {
-            // Get K Value from the form.
-            const kValue = this.decipherForm.get("kValue")?.value ?? 0;
-            // Retrieve ciphertext from the service.
-            const cipherText = this.cipherService.cipher(val, kValue);
-            // Set the target textbox.
-            this.decipherForm.get('targetText')?.setValue(cipherText);
+        this.decipherForm.get('sourceText')?.valueChanges.pipe(
+            finalize(() => this.isCalculating = false),
+            debounce(() => timer(200)),
+        ).subscribe(txt => {
+            const result = this.cipherService.decipher(txt);
+            this.decipherForm.get('targetText')?.setValue(result);
         });
     }
 }

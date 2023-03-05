@@ -4,10 +4,16 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
 })
 export class CipherService {
-
     private ignoredCharacters = ['\n'];
+    private referenceFreqMap: Map<number, number> = new Map();
+
+    private missPenalty = 10;
 
     constructor() { }
+
+    public setReferenceFreqMap(freqMap: Map<number, number>) {
+        this.referenceFreqMap = freqMap;
+    }
 
     public cipher(source: string, kValue: number): string {
         let result = "";
@@ -81,6 +87,48 @@ export class CipherService {
         }
 
         return result;
+    }
+
+    public decipher(txt: string, freqMap?: Map<number, number>, minK = -400, maxK = 400): string {
+        freqMap ??= this.referenceFreqMap;
+        const errorMap = new Map<number, number>();
+
+        console.log(txt.substring(10));
+        console.log(freqMap);
+
+        // Scan for every K candidate in the given range, and store the error.
+        for (let k = minK; k < maxK + 1; k++) {
+            const candidateSource = this.cipher(txt, k);
+            const candidateFreqMap = this.freqAnalysis(candidateSource);
+            const error: number = this.getFreqError(candidateFreqMap, freqMap);
+            errorMap.set(k, error);
+        }
+
+        // Return by ciphering with whichever key has the lowest error.
+        const sortedMap = new Map([...errorMap.entries()].sort((a, b) => a[1] - b[1]));
+        const key = sortedMap.keys().next().value;
+        const result = this.cipher(txt, key);
+
+        console.log([...sortedMap.values()]);
+
+        return result;
+    }
+
+    private getFreqError(candidate: Map<number, number>, goal: Map<number, number>): number {
+        let score = 0;
+
+        // Take union of all keys.
+        const allKeys = new Set([...candidate.keys(), ...goal.keys()]);
+
+        for (const key of allKeys) {
+            let diff = Math.abs((goal.get(key) ?? 0) - (candidate.get(key) ?? 0));
+            if (!candidate.has(key) || !goal.has(key)) {
+                diff *= this.missPenalty;
+            }
+            score += diff;
+        }
+
+        return score;
     }
 
     /**

@@ -1,6 +1,7 @@
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
 
+$bg-color: lightblue;
 $input-background-color: floralwhite;
 $input-border-color: silver;
 
@@ -20,6 +21,7 @@ $input-border-color: silver;
 
 body {
     font-family: 'PT Mono', monospace, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: $bg-color;
 }
 
 footer {

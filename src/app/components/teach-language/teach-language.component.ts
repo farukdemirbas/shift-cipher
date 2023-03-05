@@ -31,6 +31,7 @@ export class TeachLanguageComponent implements OnInit {
             debounce(() => timer(200)),
         ).subscribe(txt => {
             this.freqMap = this.cipherService.freqAnalysis(txt);
+            this.cipherService.setReferenceFreqMap(this.freqMap);
             const freqMapString = this.cipherService.freqMapStringify(this.freqMap);
             this.teachForm.get('freqMapText')?.setValue(freqMapString);
         });
