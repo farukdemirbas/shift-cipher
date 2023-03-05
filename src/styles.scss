@@ -1,1 +1,37 @@
-/* You can add global styles to this file, and also import other style files */
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
+
+$input-background-color: floralwhite;
+$input-border-color: silver;
+
+.input-field {
+    background-color: $input-background-color;
+    border-radius: 8px;
+}
+
+.large-input-field {
+    background-color: $input-background-color;
+    border-radius: 8px;
+    padding: 0.5rem;
+    border-color: $input-border-color;
+    border-style: dashed;
+    resize: none;
+}
+
+body {
+    font-family: 'PT Mono', monospace, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+footer {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    color: gray;
+    font-size: smaller;
+}
+
+.source-target-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

@@ -1,0 +1,35 @@
+<div class="decipher-form-container">
+    <form [formGroup]="decipherForm">
+        <div>
+            <h3>
+                > Decipher
+            </h3>
+            <hr>
+        </div>
+        <div class="source-target-container">
+            <div class="source-target-input source-text">
+                <div>
+                    <textarea formControlName="sourceText" placeholder="Ciphertext" class="large-input-field" cols="40"
+                        rows="10" autofocus></textarea>
+                </div>
+            </div>
+
+            <div class="my-auto">
+                <span> >> </span>
+            </div>
+
+            <div class="source-target-input target-text">
+                <div>
+                    <textarea formControlName="targetText" placeholder="Plaintext" class="large-input-field" cols="40"
+                        rows="10" readonly style="border-style: solid;"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="config-container mt-2">
+            <div class="d-flex flex-direction-row gap-2">
+                <label for="kValue" class="my-auto">K: </label>
+                <input type="text" pattern="[0-9]*" formControlName="kValue" class="input-field px-2" style="width: 60px;" readonly>
+            </div>
+        </div>
+    </form>
+</div>

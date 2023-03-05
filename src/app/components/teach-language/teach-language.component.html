@@ -1,0 +1,30 @@
+<div class="teach-form-container">
+    <form [formGroup]="teachForm">
+        <div>
+            <h3>
+                > Teach
+            </h3>
+            <hr>
+        </div>
+
+        <div class="source-target-container">
+            <div class="source-target-input source-text">
+                <div>
+                    <textarea formControlName="sourceText" placeholder="Reference text here." class="large-input-field" cols="40"
+                        rows="20" autofocus></textarea>
+                </div>
+            </div>
+
+            <div class="my-auto">
+                <span> >> </span>
+            </div>
+
+            <div class="source-target-input target-text">
+                <div>
+                    <textarea formControlName="freqMapText" placeholder="..." class="large-input-field" cols="40"
+                        rows="20" readonly style="border-style: solid;"></textarea>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
