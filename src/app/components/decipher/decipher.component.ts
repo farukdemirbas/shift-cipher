@@ -21,7 +21,6 @@ export class DecipherComponent implements OnInit {
         this.decipherForm = this.fb.group({
             sourceText: [''],
             targetText: [''],
-            kValue: [null]
         });
 
         this.decipherForm.get('sourceText')?.valueChanges.pipe(
@@ -32,4 +31,9 @@ export class DecipherComponent implements OnInit {
             this.decipherForm.get('targetText')?.setValue(result);
         });
     }
+
+    public get referenceFreqMapExists(): boolean {
+        return this.cipherService.getReferenceFreqMap().size > 0;
+    }
+
 }

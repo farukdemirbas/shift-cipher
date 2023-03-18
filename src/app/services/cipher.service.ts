@@ -15,6 +15,10 @@ export class CipherService {
         this.referenceFreqMap = freqMap;
     }
 
+    public getReferenceFreqMap(): Map<number, number> {
+        return this.referenceFreqMap;
+    }
+
     public cipher(source: string, kValue: number): string {
         let result = "";
 
@@ -89,7 +93,7 @@ export class CipherService {
         return result;
     }
 
-    public decipher(txt: string, freqMap?: Map<number, number>, minK = -400, maxK = 400): string {
+    public decipher(txt: string, freqMap?: Map<number, number>, minK = -800, maxK = 800): string {
         freqMap ??= this.referenceFreqMap;
         const errorMap = new Map<number, number>();
 

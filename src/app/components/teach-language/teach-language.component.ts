@@ -11,7 +11,6 @@ import { CipherService } from 'src/app/services/cipher.service';
 export class TeachLanguageComponent implements OnInit {
     public teachForm: FormGroup = new FormGroup({});
     public isCalculating = false;
-    public freqMap: Map<number, number> = new Map();
 
     constructor(
         private cipherService: CipherService,
@@ -30,9 +29,9 @@ export class TeachLanguageComponent implements OnInit {
             finalize(() => this.isCalculating = false),
             debounce(() => timer(200)),
         ).subscribe(txt => {
-            this.freqMap = this.cipherService.freqAnalysis(txt);
-            this.cipherService.setReferenceFreqMap(this.freqMap);
-            const freqMapString = this.cipherService.freqMapStringify(this.freqMap);
+            const freqMap = this.cipherService.freqAnalysis(txt);
+            this.cipherService.setReferenceFreqMap(freqMap);
+            const freqMapString = this.cipherService.freqMapStringify(freqMap);
             this.teachForm.get('freqMapText')?.setValue(freqMapString);
         });
     }
