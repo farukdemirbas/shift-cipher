@@ -2,6 +2,59 @@
     <!-- <router-outlet></router-outlet> -->
 
     <div class="component-container">
+        <div>
+            <p>
+                <strong>> How it works</strong>
+            </p>
+            <p>
+                <strong>> Cipher: </strong> Shift given text by the given <strong>k</strong> factor.
+            </p>
+            <p>
+                <strong>> Provide Reference: </strong> Provide a reference text body in your language of choice. The app
+                will
+                calculate and remember the character frequency distribution.
+            </p>
+            <p>
+                <strong>> Decipher: </strong> Provide a ciphered text. For all possible <strong>k</strong> values from
+                -800 to
+                800, the app will calculate the character frequency distribution and compare it to the reference
+                frequency
+                distribtion. The <strong>k</strong> value that yields the closest frequency distribution is the negative
+                of
+                the original <strong>k</strong> used in ciphering.
+            </p>
+        </div>
+        <hr>
+        <div style="font-size: smaller;">
+            <p>
+                Character frequency distributions <strong>A</strong> and <strong>B</strong> are compared using the
+                following algorithm. <br>
+                Ensure that A and B are normalized. Sum up cell-wise differences. Heavily penalize non-common characters, <br>
+                (because it is highly unlikely that two large bodies of text in the same language have many non-common
+                characters.) <br>
+                Do not ignore the space character.
+                The ratio of spacebar to each character is an important characteristic of a language.
+                A language with longer words will have a lower freq for the space character.
+            </p>
+            <ol>
+                <li>
+                    Start with <strong>total_error = 0</strong>.
+                </li>
+                <li>
+                    Let U := the union of all characters in A and B. <br>
+                </li>
+                <li>
+                    For each character c in U: <br>
+                    abs_err := Math.abs(A[c] - B[c]). <br>
+                    err := abs_err. <br>
+                    if c is NOT a common character in A and B: err = err * large_miss_penalty. <br>
+                    <strong>total_error = total_error + err.</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="component-container">
         <app-cipher></app-cipher>
     </div>
 

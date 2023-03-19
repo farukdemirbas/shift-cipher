@@ -82,11 +82,15 @@ export class CipherService {
 
         for (const pair of map.entries()) {
             const character = String.fromCharCode(pair[0]);
+            if (character === '\n')
+                continue;
+
             const lineLength = Math.floor(pair[1] * symbolCount);
+            
             let line = symbol.repeat(lineLength);
-            if (line.length === 0) {
+            if (line.length === 0)
                 line = '.';
-            }
+
             result += `${character}: ${line}\n`;
         }
 
@@ -96,9 +100,6 @@ export class CipherService {
     public decipher(txt: string, freqMap?: Map<number, number>, minK = -800, maxK = 800): string {
         freqMap ??= this.referenceFreqMap;
         const errorMap = new Map<number, number>();
-
-        console.log(txt.substring(10));
-        console.log(freqMap);
 
         // Scan for every K candidate in the given range, and store the error.
         for (let k = minK; k < maxK + 1; k++) {
@@ -127,6 +128,9 @@ export class CipherService {
         for (const key of allKeys) {
             let diff = Math.abs((goal.get(key) ?? 0) - (candidate.get(key) ?? 0));
             if (!candidate.has(key) || !goal.has(key)) {
+                // Amplify error by "miss penalty".
+                // This is because it is highly unlikely that two large bodies of text in
+                // the same language have many characters that the other one does not.
                 diff *= this.missPenalty;
             }
             score += diff;
